@@ -1,5 +1,8 @@
+# Set the Ubuntu image version as a build argument
+ARG UBUNTU_IMAGE_VERSION=24.04
+
 # Use the official Ubuntu base image
-FROM ubuntu:24.04 AS base
+FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS base
 
 ENV VAULT_VERSION=1.19.3 \
     CONSUL_VERSION=1.21.0 \
@@ -19,12 +22,12 @@ RUN apt-get update && \
 
 
 RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
-RUN unzip -o vault_1.19.3_linux_amd64.zip
+RUN unzip -o vault_${VAULT_VERSION}_linux_amd64.zip
 RUN mv vault /usr/local/bin/
 RUN chmod +x /usr/local/bin/vault
 
 RUN wget https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
-RUN unzip -o consul_1.21.0_linux_amd64.zip
+RUN unzip -o consul_${CONSUL_VERSION}_linux_amd64.zip
 RUN mv consul /usr/local/bin/
 RUN chmod +x /usr/local/bin/consul
 
@@ -40,7 +43,7 @@ RUN chmod +x kubectl
 RUN mv kubectl /usr/local/bin/
 
 
-FROM ubuntu:24.04 AS final
+FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS final
 
 WORKDIR /app
 # Copy the necessary files from the base image
