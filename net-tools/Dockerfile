@@ -8,7 +8,8 @@ ENV VAULT_VERSION=1.19.3 \
     CONSUL_VERSION=1.21.0 \
     HELM_VERSION=v3.17.3 \
     HELM_DISTRO=linux-amd64 \
-    KUBECTL_VERSION=v1.33.0
+    KUBECTL_VERSION=v1.33.0 \
+    YQ_VERSION=v4.45.2
 
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
@@ -20,6 +21,9 @@ RUN apt-get update && \
     unzip \
     tar
 
+RUN wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64
+RUN chmod +x yq_linux_amd64
+RUN mv yq_linux_amd64 /usr/local/bin/yq
 
 RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
 RUN unzip -o vault_${VAULT_VERSION}_linux_amd64.zip
@@ -64,7 +68,6 @@ RUN apt-get update && \
     telnet \
     nmap \
     jq \
-    yq \
     dnsutils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
