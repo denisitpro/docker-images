@@ -64,6 +64,7 @@ RUN apt-get update && \
     telnet \
     nmap \
     jq \
+    yq \
     dnsutils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
