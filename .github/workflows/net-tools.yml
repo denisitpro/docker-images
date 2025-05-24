@@ -63,3 +63,4 @@ jobs:
             HELM_VERSION=${{ env.HELM_VERSION }}
             HELM_DISTRO=${{ env.HELM_DISTRO }}
             KUBECTL_VERSION=${{ env.KUBECTL_VERSION }}
+            YQ_VERSION=${{ env.YQ_VERSION }}
