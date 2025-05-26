@@ -9,7 +9,15 @@ ENV VAULT_VERSION=1.19.3 \
     HELM_VERSION=v3.17.3 \
     HELM_DISTRO=linux-amd64 \
     KUBECTL_VERSION=v1.33.0
-#     YQ_VERSION=v4.45.2
+    YQ_VERSION=v4.45.2
+
+# Re-declare all other build args AFTER FROM
+ARG VAULT_VERSION
+ARG CONSUL_VERSION
+ARG HELM_VERSION
+ARG HELM_DISTRO
+ARG KUBECTL_VERSION
+ARG YQ_VERSION
 
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
@@ -21,6 +29,7 @@ RUN apt-get update && \
     unzip \
     tar
 
+RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION"
 RUN wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64
 RUN chmod +x yq_linux_amd64
 RUN mv yq_linux_amd64 /usr/local/bin/yq
