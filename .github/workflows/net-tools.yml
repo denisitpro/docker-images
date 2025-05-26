@@ -3,12 +3,12 @@ name: publish net-tools
 on:
   push:
     paths:
-      - 'net-tools/*'  # only debug
-#      - net-tools/version.txt
+#      - 'net-tools/*'  # only debug
+      - net-tools/version.txt
 
 
 jobs:
-  download:
+  build_image:
     runs-on: ubuntu-latest
 
     strategy:
