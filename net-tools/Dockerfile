@@ -8,8 +8,8 @@ ENV VAULT_VERSION=1.19.3 \
     CONSUL_VERSION=1.21.0 \
     HELM_VERSION=v3.17.3 \
     HELM_DISTRO=linux-amd64 \
-    KUBECTL_VERSION=v1.33.0 \
-    YQ_VERSION=v4.45.2
+    KUBECTL_VERSION=v1.33.0
+#     YQ_VERSION=v4.45.2
 
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
