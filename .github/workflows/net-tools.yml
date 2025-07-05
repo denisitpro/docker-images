@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'net-tools/*'  # only debug
+      - '.github/workflows/net-tools.yml'
 #      - net-tools/version.txt
 
 
