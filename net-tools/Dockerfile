@@ -1,9 +1,6 @@
 # syntax=docker/dockerfile:1.6
 # Set the Ubuntu image version as a build argument
 ARG UBUNTU_IMAGE_VERSION=24.04
-
-# Multi-arch build args
-ARG TARGETPLATFORM
 ARG VAULT_VERSION
 ARG CONSUL_VERSION
 ARG HELM_VERSION
@@ -22,6 +19,10 @@ ENV VAULT_VERSION=${VAULT_VERSION} \
     YQ_VERSION=${YQ_VERSION}
 
 
+# multi arch support
+ARG TARGETARCH
+ARG TARGETOS
+
 # Re-declare all other build args AFTER FROM
 ARG VAULT_VERSION
 ARG CONSUL_VERSION
@@ -33,32 +34,31 @@ ARG YQ_VERSION
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
 
-ARG TARGETARCH
-ARG TARGETOS
+
 
 # Теперь эти переменные доступны в командах RUN
-RUN echo "Собираю для операционной системы: ${TARGETOS}"
-RUN echo "Собираю для архитектуры: ${TARGETARCH}"
-#
-# RUN apt-get update && \
-#     apt-get install -y \
-#     curl \
-#     wget \
-#     unzip \
-#     tar
-#
-# RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION, TARGETPLATFORM=$TARGETPLATFORM"
-# RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
-#     curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch} && chmod +x /usr/local/bin/yq
+RUN echo "build for OS: ${TARGETOS}"
+RUN echo "build for arch: ${TARGETARCH}"
 
-# RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
-#     curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${arch}.zip
-# RUN ls -la
-# RUN unzip -o vault.zip
-# RUN mv vault /usr/local/bin/
-# RUN chmod +x /usr/local/bin/vault
-#
-# RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
+    wget \
+    unzip \
+    tar
+
+RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION, TARGETARCH=$TARGETARCH"
+RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
+    curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch} && chmod +x /usr/local/bin/yq
+
+RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
+    curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${arch}.zip
+RUN ls -la
+RUN unzip -o vault.zip
+RUN mv vault /usr/local/bin/
+RUN chmod +x /usr/local/bin/vault
+
+# RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
 #     curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${arch}.zip
 # RUN ls -la
 # RUN unzip -o consul.zip
@@ -71,7 +71,7 @@ RUN echo "Собираю для архитектуры: ${TARGETARCH}"
 # RUN mv ${HELM_DISTRO}/helm /usr/local/bin/
 # RUN chmod +x /usr/local/bin/helm
 #
-# RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
+# RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
 #     curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${arch}/kubectl
 # RUN curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${arch}/kubectl.sha256
 # RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
@@ -81,7 +81,6 @@ RUN echo "Собираю для архитектуры: ${TARGETARCH}"
 
 FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS final
 
-ARG TARGETPLATFORM
 ARG TARGETARCH
 
 WORKDIR /app
