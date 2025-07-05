@@ -8,6 +8,10 @@ ARG HELM_DISTRO
 ARG KUBECTL_VERSION
 ARG YQ_VERSION
 
+# multi arch support
+ARG TARGETARCH
+ARG TARGETOS
+
 # Use the official Ubuntu base image
 FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS base
 
@@ -81,7 +85,9 @@ RUN chmod +x /usr/local/bin/vault
 
 FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS final
 
+# multi arch support
 ARG TARGETARCH
+ARG TARGETOS
 
 WORKDIR /app
 # Copy the necessary files from the base image
