@@ -33,7 +33,7 @@ ARG YQ_VERSION
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
 
-RUN echo ${TARGETARCH}
+RUN echo "target platform - ${TARGETARCH}"
 #
 # RUN apt-get update && \
 #     apt-get install -y \
