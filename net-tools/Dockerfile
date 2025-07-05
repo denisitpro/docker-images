@@ -14,7 +14,7 @@ ARG KUBECTL_VERSION
 ARG YQ_VERSION
 
 # Use the official Ubuntu base image
-FROM --platform=$BUILDPLATFORM ubuntu:${UBUNTU_IMAGE_VERSION} AS base
+FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS base
 
 ENV VAULT_VERSION=${VAULT_VERSION} \
     CONSUL_VERSION=${CONSUL_VERSION} \
@@ -60,7 +60,7 @@ RUN chmod +x kubectl
 RUN mv kubectl /usr/local/bin/
 
 
-FROM --platform=$BUILDPLATFORM ubuntu:${UBUNTU_IMAGE_VERSION} AS final
+FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS final
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
