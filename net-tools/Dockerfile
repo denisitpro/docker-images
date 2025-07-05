@@ -37,16 +37,19 @@ RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, H
 RUN curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${TARGETARCH} && chmod +x /usr/local/bin/yq
 
 RUN curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
+RUN ls -la
 RUN unzip -o vault.zip
 RUN mv vault /usr/local/bin/
 RUN chmod +x /usr/local/bin/vault
 
 RUN curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${TARGETARCH}.zip
+RUN ls -la
 RUN unzip -o consul.zip
 RUN mv consul /usr/local/bin/
 RUN chmod +x /usr/local/bin/consul
 
 RUN wget "https://get.helm.sh/helm-${HELM_VERSION}-${HELM_DISTRO}.tar.gz"
+RUN ls -la
 RUN tar -xvf helm-${HELM_VERSION}-${HELM_DISTRO}.tar.gz
 RUN mv ${HELM_DISTRO}/helm /usr/local/bin/
 RUN chmod +x /usr/local/bin/helm
