@@ -33,7 +33,12 @@ ARG YQ_VERSION
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
 
-RUN echo "target platform - ${TARGETARCH}"
+ARG TARGETARCH
+ARG TARGETOS
+
+# Теперь эти переменные доступны в командах RUN
+RUN echo "Собираю для операционной системы: ${TARGETOS}"
+RUN echo "Собираю для архитектуры: ${TARGETARCH}"
 #
 # RUN apt-get update && \
 #     apt-get install -y \
