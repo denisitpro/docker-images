@@ -90,6 +90,7 @@ ARG TARGETOS
 WORKDIR /app
 # Copy the necessary files from the base image
 COPY --from=base /usr/local/bin/* /usr/local/bin/
+RUN ls -la /usr/local/bin/
 
 # Update the package list and install the necessary utilities
 # RUN apt-get update && \
