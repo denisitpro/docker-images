@@ -15,6 +15,7 @@ jobs:
     strategy:
       matrix:
         image_folder: ['net-tools']
+        arch: ['amd64', 'arm64']
 
     env:  # set global vas
       DOCKER_REPO: denisitpro/net-tools
@@ -70,4 +71,5 @@ jobs:
             HELM_DISTRO=${{ env.HELM_DISTRO }}
             KUBECTL_VERSION=${{ env.KUBECTL_VERSION }}
             YQ_VERSION=${{ env.YQ_VERSION }}
+            TARGETARCH=${{ matrix.arch }}
           builder: ${{ steps.create_builder.outputs.name }}
