@@ -51,6 +51,7 @@ jobs:
           context: ./${{ matrix.image_folder }}
           file: ./${{ matrix.image_folder }}/${{ env.DOCKER_FILE }}
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: |
             ${{ env.DOCKER_REPO }}:${{ env.VERSION }}
             ${{ env.DOCKER_REPO }}:latest
