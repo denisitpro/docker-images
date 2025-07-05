@@ -8,10 +8,6 @@ ARG HELM_DISTRO
 ARG KUBECTL_VERSION
 ARG YQ_VERSION
 
-# multi arch support
-ARG TARGETARCH
-ARG TARGETOS
-
 # Use the official Ubuntu base image
 FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS base
 
@@ -52,15 +48,17 @@ RUN apt-get update && \
     tar
 
 RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION, TARGETARCH=$TARGETARCH"
-RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
+RUN arch="${TARGETARCH}" && \
     curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch} && chmod +x /usr/local/bin/yq
 
-RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
+RUN arch="${TARGETARCH}" && \
     curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${arch}.zip
 RUN ls -la
 RUN unzip -o vault.zip
 RUN mv vault /usr/local/bin/
 RUN chmod +x /usr/local/bin/vault
+
+RUN ls -la /usr/local/bin/
 
 # RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
 #     curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${arch}.zip
