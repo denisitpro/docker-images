@@ -19,8 +19,7 @@ ENV VAULT_VERSION=${VAULT_VERSION} \
     HELM_VERSION=${HELM_VERSION} \
     HELM_DISTRO=${HELM_DISTRO} \
     KUBECTL_VERSION=${KUBECTL_VERSION} \
-    YQ_VERSION=${YQ_VERSION} \
-    TARGETPLATFORM=${TARGETPLATFORM}
+    YQ_VERSION=${YQ_VERSION}
 
 
 # Re-declare all other build args AFTER FROM
@@ -34,16 +33,18 @@ ARG YQ_VERSION
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
 
-RUN apt-get update && \
-    apt-get install -y \
-    curl \
-    wget \
-    unzip \
-    tar
-
-RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION, TARGETPLATFORM=$TARGETPLATFORM"
-RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
-    curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch} && chmod +x /usr/local/bin/yq
+RUN echo ${TARGETARCH}
+#
+# RUN apt-get update && \
+#     apt-get install -y \
+#     curl \
+#     wget \
+#     unzip \
+#     tar
+#
+# RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION, TARGETPLATFORM=$TARGETPLATFORM"
+# RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
+#     curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch} && chmod +x /usr/local/bin/yq
 
 # RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
 #     curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${arch}.zip
