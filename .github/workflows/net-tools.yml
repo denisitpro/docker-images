@@ -67,7 +67,6 @@ jobs:
             VAULT_VERSION=${{ env.VAULT_VERSION }}
             CONSUL_VERSION=${{ env.CONSUL_VERSION }}
             HELM_VERSION=${{ env.HELM_VERSION }}
-            HELM_DISTRO=${{ env.HELM_DISTRO }}
             KUBECTL_VERSION=${{ env.KUBECTL_VERSION }}
             YQ_VERSION=${{ env.YQ_VERSION }}
           builder: ${{ steps.create_builder.outputs.name }}

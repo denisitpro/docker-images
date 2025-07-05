@@ -4,7 +4,6 @@ ARG UBUNTU_IMAGE_VERSION=24.04
 ARG VAULT_VERSION
 ARG CONSUL_VERSION
 ARG HELM_VERSION
-ARG HELM_DISTRO
 ARG KUBECTL_VERSION
 ARG YQ_VERSION
 
@@ -14,7 +13,6 @@ FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS base
 ENV VAULT_VERSION=${VAULT_VERSION} \
     CONSUL_VERSION=${CONSUL_VERSION} \
     HELM_VERSION=${HELM_VERSION} \
-    HELM_DISTRO=${HELM_DISTRO} \
     KUBECTL_VERSION=${KUBECTL_VERSION} \
     YQ_VERSION=${YQ_VERSION}
 
@@ -27,7 +25,6 @@ ARG TARGETOS
 ARG VAULT_VERSION
 ARG CONSUL_VERSION
 ARG HELM_VERSION
-ARG HELM_DISTRO
 ARG KUBECTL_VERSION
 ARG YQ_VERSION
 
@@ -48,37 +45,33 @@ RUN apt-get update && \
     tar
 
 RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION, TARGETARCH=$TARGETARCH"
-RUN arch="${TARGETARCH}" && \
-    curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch} && chmod +x /usr/local/bin/yq
-
-RUN arch="${TARGETARCH}" && \
-    curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${arch}.zip
-RUN ls -la
-RUN unzip -o vault.zip
-RUN mv vault /usr/local/bin/
-RUN chmod +x /usr/local/bin/vault
-
-RUN ls -la /usr/local/bin/
-
-# RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
-#     curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${arch}.zip
+RUN curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${TARGETARCH} && chmod +x /usr/local/bin/yq
+#
+# RUN curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
+# RUN ls -la
+# RUN unzip -o vault.zip
+# RUN mv vault /usr/local/bin/
+# RUN chmod +x /usr/local/bin/vault
+#
+# RUN ls -la /usr/local/bin/
+#
+# RUN curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${TARGETARCH}.zip
 # RUN ls -la
 # RUN unzip -o consul.zip
 # RUN mv consul /usr/local/bin/
 # RUN chmod +x /usr/local/bin/consul
-#
-# RUN wget "https://get.helm.sh/helm-${HELM_VERSION}-${HELM_DISTRO}.tar.gz"
-# RUN ls -la
-# RUN tar -xvf helm-${HELM_VERSION}-${HELM_DISTRO}.tar.gz
-# RUN mv ${HELM_DISTRO}/helm /usr/local/bin/
-# RUN chmod +x /usr/local/bin/helm
-#
-# RUN arch=$(echo "$TARGETARCH" | cut -d'/' -f2) && \
-#     curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${arch}/kubectl
-# RUN curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${arch}/kubectl.sha256
-# RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-# RUN chmod +x kubectl
-# RUN mv kubectl /usr/local/bin/
+
+RUN wget "https://get.helm.sh/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz"
+RUN ls -la
+RUN tar -xvf helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz
+RUN mv linux-${TARGETARCH}/helm /usr/local/bin/
+RUN chmod +x /usr/local/bin/helm
+
+RUN curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl
+RUN curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl.sha256
+RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+RUN chmod +x kubectl
+RUN mv kubectl /usr/local/bin/
 
 
 FROM ubuntu:${UBUNTU_IMAGE_VERSION} AS final
@@ -91,7 +84,7 @@ WORKDIR /app
 # Copy the necessary files from the base image
 COPY --from=base /usr/local/bin/* /usr/local/bin/
 RUN ls -la /usr/local/bin/
-
+#
 # Update the package list and install the necessary utilities
 # RUN apt-get update && \
 #     apt-get install -y \
