@@ -36,13 +36,13 @@ RUN apt-get update && \
 RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION"
 RUN curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${TARGETARCH} && chmod +x /usr/local/bin/yq
 
-RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
-RUN unzip -o vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
+RUN curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
+RUN unzip -o vault.zip
 RUN mv vault /usr/local/bin/
 RUN chmod +x /usr/local/bin/vault
 
-RUN wget https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${TARGETARCH}.zip
-RUN unzip -o consul_${CONSUL_VERSION}_linux_${TARGETARCH}.zip
+RUN curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${TARGETARCH}.zip
+RUN unzip -o consul.zip
 RUN mv consul /usr/local/bin/
 RUN chmod +x /usr/local/bin/consul
 
