@@ -28,7 +28,6 @@ ARG HELM_VERSION
 ARG HELM_DISTRO
 ARG KUBECTL_VERSION
 ARG YQ_VERSION
-ARG TARGETPLATFORM
 
 # Set the maintainer label
 LABEL maintainer="denis.itpro@gmail.com"
@@ -44,12 +43,12 @@ RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, H
 RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
     curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${arch} && chmod +x /usr/local/bin/yq
 
-RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
-    curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${arch}.zip
-RUN ls -la
-RUN unzip -o vault.zip
-RUN mv vault /usr/local/bin/
-RUN chmod +x /usr/local/bin/vault
+# RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
+#     curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${arch}.zip
+# RUN ls -la
+# RUN unzip -o vault.zip
+# RUN mv vault /usr/local/bin/
+# RUN chmod +x /usr/local/bin/vault
 #
 # RUN arch=$(echo "$TARGETPLATFORM" | cut -d'/' -f2) && \
 #     curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${arch}.zip
