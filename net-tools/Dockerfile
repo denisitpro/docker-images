@@ -34,9 +34,7 @@ RUN apt-get update && \
     tar
 
 RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION"
-RUN wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${TARGETARCH}
-RUN chmod +x yq_linux_${TARGETARCH}
-RUN mv yq_linux_${TARGETARCH} /usr/local/bin/yq
+RUN curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${TARGETARCH} && chmod +x /usr/local/bin/yq
 
 RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
 RUN unzip -o vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
