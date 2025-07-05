@@ -46,20 +46,20 @@ RUN apt-get update && \
 
 RUN echo "Using: VAULT_VERSION=$VAULT_VERSION, CONSUL_VERSION=$CONSUL_VERSION, HELM_VERSION=$HELM_VERSION, KUBECTL_VERSION=$KUBECTL_VERSION, YQ_VERSION=$YQ_VERSION, TARGETARCH=$TARGETARCH"
 RUN curl -L -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${TARGETARCH} && chmod +x /usr/local/bin/yq
-#
-# RUN curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
-# RUN ls -la
-# RUN unzip -o vault.zip
-# RUN mv vault /usr/local/bin/
-# RUN chmod +x /usr/local/bin/vault
-#
-# RUN ls -la /usr/local/bin/
-#
-# RUN curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${TARGETARCH}.zip
-# RUN ls -la
-# RUN unzip -o consul.zip
-# RUN mv consul /usr/local/bin/
-# RUN chmod +x /usr/local/bin/consul
+
+RUN curl -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip
+RUN ls -la
+RUN unzip -o vault.zip
+RUN mv vault /usr/local/bin/
+RUN chmod +x /usr/local/bin/vault
+
+RUN ls -la /usr/local/bin/
+
+RUN curl -L -o consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${TARGETARCH}.zip
+RUN ls -la
+RUN unzip -o consul.zip
+RUN mv consul /usr/local/bin/
+RUN chmod +x /usr/local/bin/consul
 
 RUN wget "https://get.helm.sh/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz"
 RUN ls -la
@@ -84,25 +84,25 @@ WORKDIR /app
 # Copy the necessary files from the base image
 COPY --from=base /usr/local/bin/* /usr/local/bin/
 RUN ls -la /usr/local/bin/
-#
-# Update the package list and install the necessary utilities
-# RUN apt-get update && \
-#     apt-get install -y \
-#     net-tools \
-#     nano \
-#     iputils-ping \
-#     tar \
-#     curl \
-#     wget \
-#     netcat-traditional \
-#     tcpdump \
-#     traceroute \
-#     telnet \
-#     nmap \
-#     jq \
-#     dnsutils && \
-#     apt-get clean && \
-#     rm -rf /var/lib/apt/lists/*
+
+Update the package list and install the necessary utilities
+RUN apt-get update && \
+    apt-get install -y \
+    net-tools \
+    nano \
+    iputils-ping \
+    tar \
+    curl \
+    wget \
+    netcat-traditional \
+    tcpdump \
+    traceroute \
+    telnet \
+    nmap \
+    jq \
+    dnsutils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 
 # Set a default command for the container
