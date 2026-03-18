@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'angie/version.txt'
-      - '.github/workflows/angie.yml'
+
 
 jobs:
   mirror_image:
