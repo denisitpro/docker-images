@@ -93,7 +93,7 @@ RUN apt-get update && \
     tar \
     curl \
     wget \
-    netcat-traditional \
+    netcat-openbsd \
     tcpdump \
     traceroute \
     telnet \
