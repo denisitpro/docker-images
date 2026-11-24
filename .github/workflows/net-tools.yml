@@ -19,7 +19,7 @@ jobs:
     env:  # set global vas
       DOCKER_REPO: denisitpro/net-tools
       DOCKER_FILE: Dockerfile
-      UBUNTU_IMAGE_VERSION: "24.04"
+      UBUNTU_IMAGE_VERSION: "26.04"
 
     steps:
       - name: Checkout repository
