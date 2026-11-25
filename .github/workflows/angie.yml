@@ -2,6 +2,8 @@ name: mirror angie
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'angie/version.txt'
 
