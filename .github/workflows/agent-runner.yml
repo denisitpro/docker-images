@@ -2,6 +2,8 @@ name: publish agent-runner
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'agent-runner/*'  # only debug
       - '.github/workflows/agent-runner.yml'

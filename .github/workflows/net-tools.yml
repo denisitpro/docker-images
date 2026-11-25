@@ -2,6 +2,8 @@ name: publish net-tools
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'net-tools/*'  # only debug
       - '.github/workflows/net-tools.yml'
