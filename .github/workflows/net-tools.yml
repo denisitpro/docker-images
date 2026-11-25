@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '**'
     paths:
       - 'net-tools/*'  # only debug
       - '.github/workflows/net-tools.yml'
