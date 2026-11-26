@@ -54,7 +54,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./${{ matrix.image_folder }}
           file: ./${{ matrix.image_folder }}/${{ env.DOCKER_FILE }}
