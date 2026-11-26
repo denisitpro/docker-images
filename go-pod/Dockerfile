@@ -12,5 +12,5 @@ LABEL maintainer="denis.itpro@gmail.com"
 
 COPY --from=tools /out/golangci-lint /usr/local/bin/golangci-lint
 # Installed in this stage without overrides, so the module and build caches stay in the image and
-# `go run golang.org/x/vuln/cmd/govulncheck@<same version>` (the repos' `make vuln`) needs no network.
+# `go run golang.org/x/vuln/cmd/govulncheck@<same version>` (the repos' `make vuln`) is served from the cache (only a module lookup goes to the network).
 RUN go install golang.org/x/vuln/cmd/govulncheck@${GOVULNCHECK_VERSION}
