@@ -18,7 +18,7 @@ jobs:
       go_versions: ${{ steps.vars.outputs.go_versions }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Go versions to build
         id: vars
@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Load app versions
         run: |
