@@ -1,8 +1,30 @@
-.ssh/
-.bash_history
-*.retry
-*.idea
+# macOS
 .DS_Store
-*.log
-*.hui
-.vscode
+
+## User settings
+xcuserdata/
+*.xcuserstate
+
+## Derived data / caches (e.g. default Xcode build location)
+DerivedData/
+
+## Obj-C/Swift specific
+*.hmap
+
+.build/
+
+## Xcode build output (e.g. `xcodebuild ... -derivedDataPath ./build` writes here).
+## Compiled artifacts must never be committed.
+build/
+
+## Claude Code agent worktrees — tooling scratch, never part of the tree.
+.claude/worktrees/
+
+## Full reports written by scripts/docs-check.sh and scripts/docs-sweep.sh — unfiltered,
+## regenerated on every run, each script owns its own file.
+.docs-check.log
+.docs-sweep.log
+smoke-logs/
+logs/
+Sources/AcuShared/Generated/
+spikes/input/keyprobe
