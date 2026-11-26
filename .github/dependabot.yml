@@ -1,0 +1,39 @@
+# Dependabot keeps GitHub Actions and literal Dockerfile base images current.
+# Weekly; minor/patch bumps grouped into one PR per ecosystem, majors open individually.
+#
+# Not covered (Dependabot parses each FROM line alone, never reads ARG, and has no ecosystem for text files):
+#   - FROM golang:${GO_VERSION}-trixie, oven/bun:${BUN_VERSION}, alpine:${ALPINE_VERSION}, ubuntu:${UBUNTU_IMAGE_VERSION}
+#     (agent-runner, go-pod, helm-builder, net-tools)
+#   - go-pod/go-versions.txt, */app-version.txt, */version.txt
+# Those are bumped by hand.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(ci)"
+    groups:
+      actions-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  # Only directories whose Dockerfiles have a literal FROM tag.
+  - package-ecosystem: "docker"
+    directories:
+      - "/docker-wait"
+      - "/dockerfiles"
+      - "/k8s-tools"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(docker)"
+    groups:
+      docker-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
