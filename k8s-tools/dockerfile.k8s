@@ -1,5 +1,5 @@
 # Use the official Ubuntu base image
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 # Set the environment variable for non-interactive installation
 ENV DEBIAN_FRONTEND=noninteractive
