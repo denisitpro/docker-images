@@ -8,7 +8,6 @@ RUN go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@${GOLANGCI
 
 FROM golang:${GO_VERSION}-trixie AS final
 ARG GOVULNCHECK_VERSION
-LABEL maintainer="denis.itpro@gmail.com"
 
 COPY --from=tools /out/golangci-lint /usr/local/bin/golangci-lint
 # Installed in this stage without overrides, so the module and build caches stay in the image and

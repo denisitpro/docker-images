@@ -28,8 +28,6 @@ ENV VAULT_VERSION=${VAULT_VERSION} \
     KUBECTL_VERSION=${KUBECTL_VERSION} \
     YQ_VERSION=${YQ_VERSION}
 
-# Set the maintainer label
-LABEL maintainer="denis.itpro@gmail.com"
 
 
 

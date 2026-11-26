@@ -16,7 +16,6 @@ RUN go install cuelang.org/go/cmd/cue@${CUE_VERSION} && \
     go install github.com/oasdiff/oasdiff@${OASDIFF_VERSION}
 
 FROM golang:${GO_VERSION}-trixie AS final
-LABEL maintainer="denis.itpro@gmail.com"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
