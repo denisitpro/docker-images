@@ -72,4 +72,5 @@ jobs:
             GOLANGCI_LINT_VERSION=${{ env.GOLANGCI_LINT_VERSION }}
             GOVULNCHECK_VERSION=${{ env.GOVULNCHECK_VERSION }}
             OASDIFF_VERSION=${{ env.OASDIFF_VERSION }}
+            RTK_VERSION=${{ env.RTK_VERSION }}
           builder: ${{ steps.create_builder.outputs.name }}
