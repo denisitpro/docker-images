@@ -23,7 +23,8 @@ ARG GO_VERSION
 ARG CUE_VERSION
 ARG GOLANGCI_LINT_VERSION
 ARG OASDIFF_VERSION
-RUN : "${TARGETARCH:?}" "${GO_VERSION:?}" "${CUE_VERSION:?}" "${GOLANGCI_LINT_VERSION:?}" "${OASDIFF_VERSION:?}"
+ARG RTK_VERSION
+RUN : "${TARGETARCH:?}" "${GO_VERSION:?}" "${CUE_VERSION:?}" "${GOLANGCI_LINT_VERSION:?}" "${OASDIFF_VERSION:?}" "${RTK_VERSION:?}"
 
 # Everything the pod needs as root is installed here: nothing runs apt-get at run time.
 RUN apt-get update && \
@@ -90,6 +91,26 @@ RUN set -eu; \
     install -m 0755 oasdiff /usr/local/bin/oasdiff; \
     rm -f "${asset}" oasdiff checksum.txt; \
     oasdiff --version
+
+# rtk: release archive, sha256 from the release's checksums.txt. v1.2.1 ships no x86_64 glibc
+# tarball; both arches have a static musl build (x86_64 static-pie, aarch64 statically linked),
+# which runs on the glibc trixie base. The archive name is the Rust triple, not TARGETARCH.
+RUN set -eu; \
+    case "${TARGETARCH}" in \
+      amd64) rust_arch=x86_64 ;; \
+      arm64) rust_arch=aarch64 ;; \
+      *) echo "ERROR: unsupported TARGETARCH ${TARGETARCH}" >&2; exit 1 ;; \
+    esac; \
+    base="https://github.com/rtk-ai/rtk/releases/download/${RTK_VERSION}"; \
+    asset="rtk-${rust_arch}-unknown-linux-musl.tar.gz"; \
+    cd /tmp; \
+    curl -fsSLO "${base}/${asset}"; \
+    curl -fsSL "${base}/checksums.txt" | grep -E "  ${asset}\$" > checksum.txt; \
+    sha256sum -c checksum.txt; \
+    tar -xzf "${asset}" rtk; \
+    install -m 0755 rtk /usr/local/bin/rtk; \
+    rm -f "${asset}" rtk checksum.txt; \
+    rtk --version
 
 # Non-root, numeric uid:gid above 1000 (the kubelet verifies runAsNonRoot only for a numeric user). The pod sets no
 # runAsUser, so this is the UID of every process; it owns HOME (AI CLIs install into ~/.local and ~/.grok at run time),
